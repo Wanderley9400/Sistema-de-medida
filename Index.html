@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Unidades de Comprimento</title>
+
+</head>
+<body>
+    <div class="converter">
+        <h1>Conversor de Comprimento</h1>
+        <label for="meters">Digite o valor em metros:</label>
+        <input type="number" id="meters" placeholder="Exemplo: 100" required>
+        
+        <label for="unit">Selecione a unidade de destino:</label>
+        <select id="unit">
+            <option value="yards">Jardas</option>
+            <option value="feet">Pés</option>
+            <option value="inches">Polegadas</option>
+            <option value="miles">Milhas</option>
+        </select>
+        
+        <button onclick="convert()">Converter</button>
+        <button onclick="reset()">Limpar</button>
+        <div class="result" id="result"></div>
+        
+        <div class="history">
+            <h2>Histórico de Conversões:</h2>
+            <ul id="history"></ul>
+        </div>
+    </div>
+
+    <script>
+        function convert() {
+            const meters = parseFloat(document.getElementById("meters").value);
+            const unit = document.getElementById("unit").value;
+
+            if (isNaN(meters) || meters < 0) {
+                document.getElementById("result").innerHTML = "⚠️ Por favor, insira um valor válido.";
+                return;
+            }
+
+            let result;
+            let unitName;
+            switch (unit) {
+                case "yards":
+                    result = meters * 1.094;
+                    unitName = "Jardas";
+                    break;
+                case "feet":
+                    result = meters * 3.281;
+                    unitName = "Pés";
+                    break;
+                case "inches":
+                    result = meters * 39.37;
+                    unitName = "Polegadas";
+                    break;
+                case "miles":
+                    result = meters * 0.000621;
+                    unitName = "Milhas";
+                    break;
+                default:
+                    result = "Unidade inválida.";
+            }
+
+            const output = `Resultado: ${result.toFixed(3)} ${unitName}`;
+            document.getElementById("result").innerHTML = output;
+
+            // Adiciona ao histórico
+            const historyList = document.getElementById("history");
+            const listItem = document.createElement("li");
+            listItem.textContent = `⚙️ ${meters} metros = ${result.toFixed(3)} ${unitName}`;
+            historyList.appendChild(listItem);
+        }
+
+        function reset() {
+            document.getElementById("meters").value = "";
+            document.getElementById("unit").value = "yards";
+            document.getElementById("result").innerHTML = "";
+        }
+    </script>
+</body>
+</html>
